@@ -56,9 +56,9 @@ disp(det(S(2:3, :)));
 disp(det([S(1,:); S(3,:)]));
 
 E = sym('E', [4 1]);
-E(1) = det(S(1:2, :));
-E(2) = det(S(2:3, :));
-E(3) = det([S(1,:); S(3,:)]);
+E(1) = det(S(1:2, :)); % = 0 equation 9
+E(2) = det(S(2:3, :)); % = 0 equation 11
+E(3) = det([S(1,:); S(3,:)]); % = 0 equation 8
 E(4) = L_2 * det(S(1:2, :));
 
 R = sym('R', [4 4]); % coefficients matrix for equation 13
@@ -80,16 +80,53 @@ for i = 1:4
     R(i, :) = cx;
 end
 
-disp(R);
+%disp(R);
 %disp(coeffs(det(R), L_1));
 [CX, TX] = coeffs(det(R), L_1);
 
-fileID = fopen('poly.txt','at');
-fprintf(fileID, '%s \n', CX(10));
+%NOW I AM GOING TO PRINT ALL THAT I NEED!!
 
+%FIRSTLY ALL COEFFICIENT OF THE POLYNOMIAL
 
-% for i = 1:11
-%     fprintf(fileID, 'C[%d] = %s \n', (i - 1), CX(i));
-% end
+poly = 'poly';
+txt = '.txt';
+
+for i = 1:10
+    fileID = fopen([poly '0'+i-1 txt],'wt');
+    fprintf(fileID, '%s \n', CX(i));
+    fclose(fileID);
+end
+
+fileID = fopen([poly '10' txt],'wt');
+fprintf(fileID, '%s \n', CX(i));
 fclose(fileID);
-disp(TX);
+
+%NOW THE COEFFCIENTS OF THE QUADRIC POLYNOMIAL FOR FINDING L_2
+
+disp(det(S(1:2, :))); %for finding L_2
+[cl, tl] = coeffs(det(S(1:2, :)), L_2);
+disp(cl);
+disp(tl); %[ L_2^2, L_2, 1]
+
+fileID = fopen('coeffs_for_L2.txt','wt');
+
+for i = 1:3
+    fprintf(fileID, 'L2[%d] = ', i - 1);
+    if(i ~= 3)
+        fprintf(fileID, '%s;\n', cl(i));
+    else
+        fprintf(fileID, '%s\n', cl(i));
+    end
+    
+end
+
+fclose(fileID);
+
+%NOW THE EXPRESSION FOR FINDING F_2_3
+
+fileID = fopen('coeffs_for_F_2_3.txt','wt');
+fprintf(fileID, 'F[2][3] = %s', -S(1,2)/S(1,1));
+fclose(fileID);
+
+
+
