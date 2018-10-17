@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void transform(ifstream & fin, ofstream & fout, string name) { // input is a long expression
+void transformFile(ifstream & fin, ofstream & fout, string name, bool file_is_long = true) { // input is a long expression
 	char c;
 	char i, j, z;
 	char p;
@@ -41,7 +41,7 @@ void transform(ifstream & fin, ofstream & fout, string name) { // input is a lon
 			s.append(temp);
 			temp.clear();
 		}
-		else if (c == '+' || c == '-') {
+		else if ((c == '+' || c == '-') && file_is_long) {
 			//s.pop_back(); //presumably there will be spaces between symbols
 			fout << s << ";" << endl; 
 			fout << name << " " << c << "= "; // += or -=
