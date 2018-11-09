@@ -73,7 +73,7 @@ void transformFile(ifstream & fin, ofstream & fout, bool file_is_long = false, s
 	fout << ";" << endl;
 }
 
-void transformCoefficients() {
+void transformCoefficients(string folderNameIn = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\MATLAB\\", string folderNameOut = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\ConsoleApplication1\\findingFundamental\\") {
 	ifstream fin;
 	ofstream fout;
 	string fileNameIn, fileNameOut, numString;
@@ -82,14 +82,14 @@ void transformCoefficients() {
 			numString = num;
 		else
 			numString = "10";
-		fileNameIn = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\MATLAB\\poly" + numString + ".txt";
+		fileNameIn = folderNameIn + "poly" + numString + ".txt";
 		fin.open(fileNameIn);
 
-		fileNameOut = "poly" + numString + ".cpp";
+		fileNameOut = folderNameOut + "poly" + numString + ".cpp";
 		fout.open(fileNameOut);
 
 		fout << "#include \"stdafx.h\"" << endl << "#include <cmath>" << endl << endl;
-		fout << "void find_" << (num - '0') << "_coefficient(double & X) {" << endl;
+		fout << "void find_" << (num - '0') << "_coefficient(double & X, double ** Q) {" << endl;
 		transformFile(fin, fout, true, "X");
 		fout << "}";
 
@@ -98,9 +98,9 @@ void transformCoefficients() {
 	}
 }
 
-void transformForL2() {
-	ifstream fin("C:\\Users\\Елизавета\\UNI\\CV\\SFM\\MATLAB\\coeffs_for_L2.txt");
-	ofstream fout("coeffsL2.cpp");
+void transformForL2(string folderNameIn = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\MATLAB\\", string folderNameOut = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\ConsoleApplication1\\findingFundamental\\") {
+	ifstream fin(folderNameIn + "coeffs_for_L2.txt");
+	ofstream fout(folderNameOut + "coeffsL2.cpp");
 	fout << "#include \"stdafx.h\"" << endl  << "#include <cmath>" << endl << endl;
 	fout << "void findCoefficientsForL2Poly(double * L2, double ** Q, double L1) {" << endl;
 	transformFile(fin, fout);
@@ -109,9 +109,9 @@ void transformForL2() {
 	fout.close();
 }
 
-void transformForF23() {
-	ifstream fin("C:\\Users\\Елизавета\\UNI\\CV\\SFM\\MATLAB\\coeffs_for_F_2_3.txt");
-	ofstream fout("findF23.cpp");
+void transformForF23(string folderNameIn = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\MATLAB\\", string folderNameOut = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\ConsoleApplication1\\findingFundamental\\") {
+	ifstream fin(folderNameIn + "coeffs_for_F_2_3.txt");
+	ofstream fout(folderNameOut + "findF23.cpp");
 	fout << "#include \"stdafx.h\"" << endl << "#include <cmath>" << endl << endl;
 	fout << "void findCoefficientsForF23(double ** F, double ** Q, double L1, double L2) {" << endl;
 	transformFile(fin, fout);
@@ -120,8 +120,8 @@ void transformForF23() {
 	fout.close();
 }
 
-void transformAll() {
-	transformCoefficients();
-	transformForL2();
-	transformForF23();
+void transformAll(string folderNameIn = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\MATLAB\\", string folderNameOut = "C:\\Users\\Елизавета\\UNI\\CV\\SFM\\ConsoleApplication1\\findingFundamental\\") {
+	transformCoefficients(folderNameIn, folderNameOut);
+	transformForL2(folderNameIn, folderNameOut);
+	transformForF23(folderNameIn, folderNameOut);
 }
