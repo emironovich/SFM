@@ -7,8 +7,6 @@ yy = sym('yy_%d', [1 10]);
 
 syms L_1 L_2; % distortion parametrs (unknown)  
 
-M = sym('M', [10 16]); % coefficient matrix for ten equations and sixteen monomials
-
 X_1 = sym('X', [10 3]); % coordinates not corrupted by radial distorton
 X_2 = sym('X', [10 3]);
 for i = 1:10

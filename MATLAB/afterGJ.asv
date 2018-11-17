@@ -53,7 +53,7 @@ D = det(S(1:2, :));
 disp(D);
 disp(det(S(1:2, :)));
 disp(det(S(2:3, :)));
-disp(det([S(1,:); S(3,:)])); %
+disp(det([S(1,:); S(3,:)]));
 
 E = sym('E', [4 1]);
 E(1) = det(S(1:2, :)); % = 0 equation 9
@@ -101,7 +101,6 @@ fileID = fopen([poly '10' txt],'wt');
 fprintf(fileID, '%s \n', CX(i));
 fclose(fileID);
 
-
 %NOW THE COEFFCIENTS OF THE QUADRIC POLYNOMIAL FOR FINDING L_2
 
 disp(det(S(1:2, :))); %for finding L_2
@@ -128,8 +127,7 @@ fclose(fileID);
 %NOW THE EXPRESSION FOR FINDING F_2_3
 
 fileID = fopen('coeffs_for_F_2_3.txt','wt');
-% fprintf(fileID, 'F[2][3] = %s', -S(1,2)/S(1,1));
-fprintf(fileID, '%s', -S(1,2)/S(1,1));
+fprintf(fileID, 'F[2][3] = %s', -S(1,2)/S(1,1));
 fclose(fileID);
 
 
