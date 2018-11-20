@@ -1,10 +1,10 @@
-function numbers(CX, TX)
+function numbers()
 x = rand(1, 10);
 y = rand(1, 10);
 %y = ones(1, 10); todo THIS DOES NOT WORK
 F_th = rand(3);
 L1_th = rand(1);
-X = [x; y;  L1_th * (x.^2 + y.^2)]; % colomns are coordinates in first image + distortion
+X = [x; y;  1 + L1_th * (x.^2 + y.^2)]; % colomns are coordinates in first image + distortion
 
 xx = zeros(1, 10); %will define from equation
 yy = rand(1, 10);
@@ -13,7 +13,7 @@ L2_th = rand(1);
 syms t z real;
 
 for i = 1:10
-    ex = (X(:, i))' * F_th * [t; z; L2_th * (t^2 + z^2)];
+    ex = (X(:, i))' * F_th * [t; z; 1 + L2_th * (t^2 + z^2)];
     [c, cx] = coeffs(ex, t);
 %     disp(c);
 %     disp(cx);
@@ -33,7 +33,7 @@ for i = 1:10
     
 end
 
-Y = [xx; yy;  L2_th * (xx.^2 + yy.^2)];
+Y = [xx; yy;  1 + L2_th * (xx.^2 + yy.^2)];
 % disp(Y);
 
 % for i = 1:10
@@ -47,8 +47,8 @@ disp(MG);
 Q = MG(:, 11:16);
 disp(Q);
 
-S = find_S();
-%[CX, TX] = find_poly(S);
+S = find_S(F_sym, L_1, L_2, Q_sym);
+[CX, TX] = find_poly(S, L_1, L_2);
 disp('I am back!');
 disp(TX);
 

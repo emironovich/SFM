@@ -1,41 +1,6 @@
-function [CX, TX] = find_poly(S)
-    syms L_1 L_2;
-
-    D = det(S(1:2, :));
-    disp(D);
-    disp(det(S(1:2, :)));
-    disp(det(S(2:3, :)));
-    disp(det([S(1,:); S(3,:)])); %
-
-    E = sym('E', [4 1]);
-    E(1) = det(S(1:2, :)); % = 0 equation 9
-    E(2) = det(S(2:3, :)); % = 0 equation 11
-    E(3) = det([S(1,:); S(3,:)]); % = 0 equation 8
-    E(4) = L_2 * det(S(1:2, :));
-
-    R = sym('R', [4 4]); % coefficients matrix for equation 13
-
-    for i = 1:4
-        t = E(i);
-        disp(t);
-        [cx, tx] = coeffs(t, L_2);
-        if(tx(1) ~= L_2^3)
-            cx = [0 cx];
-        end
-        if(tx(end) ~= 1)
-            cx = [cx 0];
-        end
-        disp('Coeff:');
-        disp(cx);
-        disp('Poly:');
-        disp(tx);
-        R(i, :) = cx;
-    end
-
-    disp(R);
-    %disp(coeffs(det(R), L_1));
+function [CX, TX] = find_poly(S, L_1, L_2)
+    R = find_R(S, L_2);
     [CX, TX] = coeffs(det(R), L_1);
-
     disp(TX);
 
 end
