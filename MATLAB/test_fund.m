@@ -59,6 +59,59 @@ R_sub = subs(subs(R, [L_1 L_2], [L1_th L2_th]), Q_sym, Q_th);
 mon = [L2_th ^ 3; L2_th ^ 2; L2_th; 1];
 assert(norm(double(R_sub * mon), 1) <= tol);
 
+%% Test 6: checking L2
+[CX, TX] = find_poly(S, L_1, L_2);
+disp('I am back!');
+disp(TX);
+
+L1_all = roots(subs(CX, Q_sym, Q_th)); %comples roots
+E = find_E(S, L_2);
+L2_all = find_L2(E, Q_sym, Q_th, L_1, L_2, L1_pr);
+S_subq = subs(S, Q_sym, Q_th);
+for i = 1 : 10
+    if isempty(L2_all)
+        disp('NO ROOTS FOR L2');
+    end
+    for j = 1 : length(L2_all)
+        L1_pr = L1_all(i);
+        L2_pr = L2_all(j);
+        S_sub = subs(S_subq, [L_1 L_2], [L1_pr L2_pr]);
+        disp('S_sub');
+        disp(S_sub);
+        assert(abs(double(S_sub(1,1) / S_sub(1,2)) - double(S_sub(2,1) / S_sub(2,2))) <= tol)
+        assert(abs(double(S_sub(1,1) / S_sub(1,2)) - double(S_sub(3,1) / S_sub(3,2))) <= tol)
+        assert(abs(double(S_sub(3,1) / S_sub(3,2)) - double(S_sub(2,1) / S_sub(2,2))) <= tol)
+    end
+end
+
+%% Test 7: checking F
+[CX, TX] = find_poly(S, L_1, L_2);
+disp('I am back!');
+disp(TX);
+
+L1_all = roots(subs(CX, Q_sym, Q_th)); %comples roots
+for i = 1:10
+    L1_pr = L1_all(i);
+    L2_all = roots(coeffs( subs(  subs(det(S(1:2, :)), Q_sym, Q_th) , L_1, L1_pr) , L_2));
+    for j = 1:2
+        L2_pr = L2_all(j);
+        F_pr = find_F(S, Q_sym, Q_th, L_1, L_2, L1_pr, L2_pr);
+        X = [x; y;  1 + L1_pr * (x.^2 + y.^2)];
+        Y = [xx; yy;  1 + L2_pr * (xx.^2 + yy.^2)];
+        for k = 1:10
+            disp(double((X(:, k))' * F_th * Y(:, k)));
+            assert(double(abs((X(:, k))' * F_th * Y(:, k))) <= tol)
+        end
+    end
+end
+
+
+        
+
+
+
+
+
 
 
  
