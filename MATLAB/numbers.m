@@ -1,4 +1,12 @@
 function numbers()
+F_sym = sym('f_%d_%d',3); % fumdamental matrix (unknown)
+syms L_1 L_2; % distortion parametrs (unknown)  
+
+%X = [F(1,1), F(1,2), F(2,1), F(2,2), L_1 * F(3,1), F(3,1), L_1*F(3,2),
+%    F(3,2), L_2*F(1,3), F(1,3), L_2*F(2,3), F(2,3), F(3,3), L_1*F(3,3),
+%    L_2*F(3,3), L_1*L_2*F(3,3)]
+Q_sym = sym('q_%d_%d', [10 6]); % leftovers afret G-J elimination
+
 x = rand(1, 10);
 y = rand(1, 10);
 %y = ones(1, 10); todo THIS DOES NOT WORK

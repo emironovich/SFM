@@ -3,7 +3,7 @@ function [x, y, xx, yy, L1, L2, F] = generate_test_data()
     y = rand(1, 10);
     F = rand(3);
     L1 = rand(1);
-    X = [x; y;  L1 * (x.^2 + y.^2)]; % colomns are coordinates in first image + distortion
+    X = [x; y;  1 + L1 * (x.^2 + y.^2)]; % colomns are coordinates in first image + distortion
 
     xx = zeros(1, 10); %will define from equation
     yy = rand(1, 10);
@@ -12,7 +12,7 @@ function [x, y, xx, yy, L1, L2, F] = generate_test_data()
     syms t z real;
 
     for i = 1:10
-        ex = (X(:, i))' * F * [t; z; L2 * (t^2 + z^2)];
+        ex = (X(:, i))' * F * [t; z; 1 + L2 * (t^2 + z^2)];
         [c, cx] = coeffs(ex, t);
     %     disp(c);
     %     disp(cx);
