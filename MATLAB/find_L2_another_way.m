@@ -1,7 +1,7 @@
-function L2_all = find_L2(E, Q_sym, Q, L_1, L_2, L1_pr, tol)    
+function L2_all = find_L2_another_way(R, Q_sym, Q, L_1, L_2, L1_pr, tol)
     L2_all = zeros(0);
-    for i = 1 : 3
-        temp = roots(coeffs(subs(subs(E(i), Q_sym, Q), L_1, L1_pr), L_2));
+    for i = 1 : 4
+        temp = roots(subs(subs(R(i), Q_sym, Q), L_1, L1_pr));
         if i == 1
             L2_all = temp;
         else
@@ -10,7 +10,6 @@ function L2_all = find_L2(E, Q_sym, Q, L_1, L_2, L1_pr, tol)
                 for k = 1 : length(temp)
                     if L2_all(j) - temp(k) <= tol
                         new_L2(end + 1) = L2_all(j);
-                        break;
                     end
                 end
             end

@@ -27,8 +27,7 @@ for i = 1:10
 %     disp(cx);
     d = c(2)*c(2) - 4 * c(1) * c(3);
 %     disp(d);
-    [zc, zx] = coeffs(d, z);
-%     disp(zc);
+    [zc, zx] = coeffs(d, z);disp(zc);
 %     disp(zx);
     newz = (-zc(2) + (zc(2)*zc(2) - 4*zc(1)*zc(3))^(1/2)) / (2 * zc(1));
 %     disp(double(newz));

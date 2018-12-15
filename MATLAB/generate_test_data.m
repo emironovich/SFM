@@ -29,6 +29,5 @@ function [x, y, xx, yy, L1, L2, F] = generate_test_data()
     %     disp(double(subs(ex, [z t], [newz newt])));
         xx(i) = newt;
         yy(i) = newz;
-
-    end
+    end    
 end
