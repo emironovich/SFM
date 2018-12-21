@@ -7,45 +7,9 @@ syms L_1 L_2; % distortion parametrs (unknown)
 %    L_2*F(3,3), L_1*L_2*F(3,3)]
 Q_sym = sym('q_%d_%d', [10 6]); % leftovers afret G-J elimination
 
-x = rand(1, 10);
-y = rand(1, 10);
-%y = ones(1, 10); todo THIS DOES NOT WORK
-F_th = rand(3);
-L1_th = rand(1);
+[x, y, xx, yy, L1_th, L2_th, F_th] = generate_the_right_way();
 X = [x; y;  1 + L1_th * (x.^2 + y.^2)]; % colomns are coordinates in first image + distortion
-
-xx = zeros(1, 10); %will define from equation
-yy = rand(1, 10);
-L2_th = rand(1);
-
-syms t z real;
-
-for i = 1:10
-    ex = (X(:, i))' * F_th * [t; z; 1 + L2_th * (t^2 + z^2)];
-    [c, cx] = coeffs(ex, t);
-%     disp(c);
-%     disp(cx);
-    d = c(2)*c(2) - 4 * c(1) * c(3);
-%     disp(d);
-    [zc, zx] = coeffs(d, z);disp(zc);
-%     disp(zx);
-    newz = (-zc(2) + (zc(2)*zc(2) - 4*zc(1)*zc(3))^(1/2)) / (2 * zc(1));
-%     disp(double(newz));
-%     disp(double(subs(d, z, newz)));
-    newt = -c(2) / (2 * c(1));
-%     disp(double(newt));
-%     disp(double(subs(ex, [z t], [newz newt])));
-    xx(i) = newt;
-    yy(i) = newz;
-    
-end
-
 Y = [xx; yy;  1 + L2_th * (xx.^2 + yy.^2)];
-% disp(Y);
-
-% for i = 1:10
-%     disp(double((X(:, i))' * F * Y(:, i)));
-% end
 
 M = find_M(x, y, xx, yy);
 MG = rref(M);

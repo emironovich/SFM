@@ -1,5 +1,5 @@
 %test data
-[x, y, xx, yy, L1_th, L2_th, F_th] = generate_test_data();
+[x, y, xx, yy, L1_th, L2_th, F_th] = generate_the_right_way();
 
 %symbolic variables
 F_sym = sym('f_%d_%d',3); % fumdamental matrix (unknown)

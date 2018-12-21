@@ -1,10 +1,12 @@
-function [points_in_image, L] = space_to_image(points_in_space)
+function [L, x_given, y_given] = space_to_image(points_in_space, f)
     L = -rand(1);
     points_in_image = zeros(3, 10);
+    x_given = zeros(1, 10);
+    y_given = zeros(1, 10);
     for i = 1 : 10
         %(u, v, 1 + L*(u^2 + v^2)) = a * (x, y, z)
-        x = points_in_space(1, i);
-        y = points_in_space(2, i);
+        x = f * points_in_space(1, i);
+        y = f * points_in_space(2, i);
         z = points_in_space(3, i);
         %r = norm([u, v])
         %a = r / nxy;
@@ -16,6 +18,8 @@ function [points_in_image, L] = space_to_image(points_in_space)
         v = a * y;
         points_in_image(1, i) = u;
         points_in_image(2, i) = v;
-        points_in_image(3, i) = 1 + L*(u^2 + v^2);        
+        points_in_image(3, i) = 1 + L*(u^2 + v^2); 
+        x_given(i) = u;
+        y_given(i) = v;
     end
 end
