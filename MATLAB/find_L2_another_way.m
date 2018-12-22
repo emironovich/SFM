@@ -3,14 +3,21 @@ function L2_all = find_L2_another_way(R, Q_sym, Q, L_1, L1_pr, tol)
     for i = 1 : 4
         temp = double(roots(subs(subs(R(i, :), Q_sym, Q), L_1, L1_pr)));
         %disp(temp);
+        new_L2 = zeros(0);
         if i == 1
-            L2_all = temp;
+            for j = 1 : length(temp)
+                curr = temp(j);
+                if abs(imag(curr)) < tol
+                        curr = real(curr);
+                        new_L2(end + 1) = curr;
+                end
+            end
         else
             new_L2 = zeros(0);
             for j = 1 : length(L2_all)
                 for k = 1 : length(temp)
                     curr = temp(k);
-                    if(abs(imag(curr)) < tol)
+                    if abs(imag(curr)) < tol
                         curr = real(curr);
                     end
                     if abs(L2_all(j) - curr) <= tol
@@ -18,13 +25,12 @@ function L2_all = find_L2_another_way(R, Q_sym, Q, L_1, L1_pr, tol)
                         break;
                     end
                 end
-            end
-%             disp('prev_L2');
-%             disp(L2_all);
-%             disp('new_L2');
-%             disp(new_L2);
-            L2_all = new_L2;
-            
+            end          
         end
+%         disp('prev_L2');
+%         disp(L2_all);
+%         disp('new_L2');
+%         disp(new_L2);  
+        L2_all = new_L2;
     end
 end
