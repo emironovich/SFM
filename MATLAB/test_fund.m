@@ -60,33 +60,39 @@ mon = [L2_th ^ 3; L2_th ^ 2; L2_th; 1];
 assert(norm(double(R_sub * mon), 1) <= tol);
 
 %% Test 6: checking L2
-[CX, TX] = find_poly(S, L_1, L_2);
-disp('I am back!');
-disp(TX);
 
-L1_all = roots(subs(CX, Q_sym, Q_th)); %comples roots
-E = find_E(S, L_2);
-S_subq = subs(S, Q_sym, Q_th);
-for i = 1 : 10
-    L1_pr = L1_all(i);
-    L2_all = find_L2(E, Q_sym, Q_th, L_1, L_2, L1_pr, tol);
-    L2_all_2 = find_L2_another_way(R, Q_sym, Q_th, L_1, L_2, L1_pr, tol);
-    disp('The roots for L2');
-    disp(L2_all);
-    %assert(isequal(L2_all, L2_all_2), 'The results for finding L2 differ')
-    for j = 1 : length(L2_all)
-        L1_pr = L1_all(i);
-        L2_pr = L2_all(j);
-        S_sub = subs(S_subq, [L_1 L_2], [L1_pr L2_pr]);
-        disp('S_sub');
-        disp(S_sub);
-        dd1 = abs(double(S_sub(1,1) / S_sub(1,2)) - double(S_sub(2,1) / S_sub(2,2)));
-        assert( dd1 <= tol)
-        
-        assert(abs(double(S_sub(1,1) / S_sub(1,2)) - double(S_sub(3,1) / S_sub(3,2))) <= tol)
-        assert(abs(double(S_sub(3,1) / S_sub(3,2)) - double(S_sub(2,1) / S_sub(2,2))) <= tol)
-    end
-end
+L2_found = find_L2_another_way(R, Q_sym, Q_th, L_1, L1_th, tol);
+assert(length(L2_found) == 1, 'There is more than one solution for L2');
+assert(abs(L2_found - L2_th) < tol), 'The value of L2 is found incorrectly using theoretical L2');
+% [CX, TX] = find_poly(S, L_1, L_2);
+% disp('I am back!');
+% disp(TX);
+% 
+% L1_all = roots(subs(CX, Q_sym, Q_th)); %comples roots
+% E = find_E(S, L_2);
+% S_subq = subs(S, Q_sym, Q_th);
+% for i = 1 : 10
+%     L1_pr = L1_all(i);
+%     %L2_all = find_L2(E, Q_sym, Q_th, L_1, L_2, L1_th, tol); %pr
+%     L2_all_2 = find_L2_another_way(R, Q_sym, Q_th, L_1, L_2, L1_pr, tol); %pr
+%     disp('The roots for L2');
+%     disp(L2_all);
+%     disp('The roots for L2');
+%     disp(L2_all_2);
+%     %assert(isequal(L2_all, L2_all_2), 'The results for finding L2 differ')
+%     for j = 1 : length(L2_all)
+%         L1_pr = L1_all(i);
+%         L2_pr = L2_all(j);
+%         S_sub = subs(S_subq, [L_1 L_2], [L1_pr L2_pr]);
+%         disp('S_sub');
+%         disp(S_sub);
+%         dd1 = abs(double(S_sub(1,1) / S_sub(1,2)) - double(S_sub(2,1) / S_sub(2,2)));
+%         assert( dd1 <= tol)
+%         
+%         assert(abs(double(S_sub(1,1) / S_sub(1,2)) - double(S_sub(3,1) / S_sub(3,2))) <= tol)
+%         assert(abs(double(S_sub(3,1) / S_sub(3,2)) - double(S_sub(2,1) / S_sub(2,2))) <= tol)
+%     end
+% end
 
 %% Test 7: checking F
 [CX, TX] = find_poly(S, L_1, L_2);
