@@ -1,82 +1,67 @@
-function numbers()
-F_sym = sym('f_%d_%d',3); % fumdamental matrix (unknown)
-syms L_1 L_2; % distortion parametrs (unknown)  
+function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
+    F_sym = sym('f_%d_%d',3); % fumdamental matrix (unknown)
+    syms L_1 L_2; % distortion parametrs (unknown)  
 
-%X = [F(1,1), F(1,2), F(2,1), F(2,2), L_1 * F(3,1), F(3,1), L_1*F(3,2),
-%    F(3,2), L_2*F(1,3), F(1,3), L_2*F(2,3), F(2,3), F(3,3), L_1*F(3,3),
-%    L_2*F(3,3), L_1*L_2*F(3,3)]
-Q_sym = sym('q_%d_%d', [10 6]); % leftovers afret G-J elimination
+    %X = [F(1,1), F(1,2), F(2,1), F(2,2), L_1 * F(3,1), F(3,1), L_1*F(3,2),
+    %    F(3,2), L_2*F(1,3), F(1,3), L_2*F(2,3), F(2,3), F(3,3), L_1*F(3,3),
+    %    L_2*F(3,3), L_1*L_2*F(3,3)]
+    Q_sym = sym('q_%d_%d', [10 6]); % leftovers afret G-J elimination
 
-[x, y, xx, yy, L1_th, L2_th, F_th] = generate_the_right_way();
-X = [x; y;  1 + L1_th * (x.^2 + y.^2)]; % colomns are coordinates in first image + distortion
-Y = [xx; yy;  1 + L2_th * (xx.^2 + yy.^2)];
+    %[x, y, xx, yy, L1_th, L2_th, F_th] = generate_the_right_way();
 
-M = find_M(x, y, xx, yy);
-MG = rref(M);
-disp(MG);
+    M = find_M(x, y, xx, yy);
+    MG = rref(M);
+    disp(MG);
 
-Q = MG(:, 11:16);
-disp(Q);
+    Q = MG(:, 11:16);
+    disp(Q);
 
-S = find_S(F_sym, L_1, L_2, Q_sym);
-[CX, TX] = find_poly(S, L_1, L_2);
-disp('I am back!');
-disp(TX);
+    S = find_S(F_sym, L_1, L_2, Q_sym);
+    [CX, TX, R] = find_poly(S, L_1, L_2);
+    disp('I am back!');
+    disp(TX);
 
-Q_s = sym('q_%d_%d', [10 6]);
-
-L1_all = roots(subs(CX, Q_s, Q)); %comples roots
-%disp(L1_all);
-
-syms L_1 L_2;
-
-for i = 1:10
-    if imag(L1_all(i)) ~= 0
-        disp('Complex root L1:');
-        disp(L1_all(i));
-        continue;
-    end
-    L1 = L1_all(i);
-    L2_all = roots(coeffs( subs(  subs(det(S(1:2, :)), Q_s, Q) , L_1, L1) , L_2));
-    for j = 1:2
-        if imag(L2_all(j)) ~= 0
-           disp('Complex root L2:');
-           disp(L2_all(j));
-           continue;
+    L1_all = roots(subs(CX, Q_sym, Q)); %comples roots
+    disp('THESE ARE L1');
+    disp(L1_all);
+    L1_new = zeros(10);
+    num = 0;
+    for i = 1 : length(L1_all)
+        if abs(imag(L1_all(i))) < tol
+            L1_new(i) = real(L1_all(i));
+            num = num + 1;
         end
-        L2 = L2_all(j);
-        F = ones(3); %F(3, 3) = 1;
-        F(2, 3) = subs(subs(-S(1,2)/S(1,1), [L_1 L_2], [L1 L2]), Q_s, Q);
-        
-        X = zeros(6, 1);
-        
-        X(1) = L2 * F(2, 3);
-        X(2) = F(2, 3);
-        X(3) = F(3, 3);
-        X(4) = L1 * F(3, 3);
-        X(5) = L2 * F(3, 3);
-        X(6) = L1 * L2 * F(3, 3);
+    end
+    L1_new = L1_new(1:num);
+    L1_all = L1_new;
 
-        F(1, 1) = -Q(1,:) * X;
-        F(1, 2) = -Q(2, :) * X;
-        F(2, 1) = -Q(3, :) * X;
-        F(2, 2) = -Q(4, :) * X;
-        F(3, 1) = -Q(6, :) * X;
-        F(3, 2) = -Q(8, :) * X;
-        F(1, 3) = -Q(10, :) * X;
-        
+    syms L_1 L_2;
+    
+    F_set = zeros(num, 3, 3);
+    L1_set = zeros(1, num);
+    L2_set = zeros(1, num);
+    
+    for i = 1:num
+        L1 = L1_all(i);
+        L2_all = find_L2_another_way(R, Q_sym, Q, L_1, L1, tol);
+        L2 = double(L2_all(1)); %there should be only one value, but just in case smth is wrong   
+        F = find_F(S, Q_sym, Q, L_1, L_2, L1, L2);
         disp('Here are the results for L1, L2:');
         disp([L1 L2]);
-        disp('The real L1 and L2 are:');
-        disp([L1_th L2_th]);
+    %     disp('The real L1 and L2 are:');
+    %     disp([L1_th L2_th]);
         disp('Here is the counted F:');
         disp(F);
-        disp('The real F is:');
-        disp(F_th);
-        disp('Here is F_th divided by obtainted F');
-        disp(F_th./F);
-    end    
-end
+    %     disp('The real F is:');
+    %     disp(F_th);
+    %     disp('Here is F_th divided by obtainted F');
+    %     disp(F_th./F);  
+        F_set(i, :, :) = F;
+        L1_set(i) = L1;
+        L2_set(i) = L2;
+
+    end
+
 end
 
 
