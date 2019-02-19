@@ -1,3 +1,5 @@
+%this is the FL1L2 solver
+
 function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
     F_sym = sym('f_%d_%d',3); % fumdamental matrix (unknown)
     syms L_1 L_2; % distortion parametrs (unknown)  

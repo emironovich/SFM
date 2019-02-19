@@ -1,5 +1,9 @@
+%this function generates two sets of corresponsing points, two distortion
+%parameters and fundamental matrix by generating points in space, two camera models and 
+%random rotation and translation between them
+
 function [x, y, xx, yy, L1, L2, F, R, t] = generate_the_right_way()
-    r_vector = rand(3, 1);
+    r_vector = rand(3, 1); %хитрая штука
     r_vector_skew = make_skew(r_vector);
     t = rand(3, 1); %translation
     R = expm(r_vector_skew); %rotation

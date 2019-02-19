@@ -47,17 +47,17 @@ assert(norm(double(A_sub*X_sub), 1) <= tol)
 %% Test 3: eq8 checking S
 S_sub = subs(subs(S, [L_1 L_2], [L1_th L2_th]), Q_sym, Q_th);
 monomials = [F_th(2, 3); F_th(3, 3)];
-assert(norm(double(S_sub * monomials), 1) <= tol)
+assert(norm(double(S_sub * monomials)) <= tol)
 
 %% Test 4: eq9 - eq11 checking E
 E = find_E(S, L_2);
 E_sub = subs(subs(E, [L_1 L_2], [L1_th L2_th]), Q_sym, Q_th);
-assert(norm(double(E_sub), 1) <= tol)
+assert(norm(double(E_sub)) <= tol)
 
 %% Test 5: eq13
 R_sub = subs(subs(R, [L_1 L_2], [L1_th L2_th]), Q_sym, Q_th);
 mon = [L2_th ^ 3; L2_th ^ 2; L2_th; 1];
-assert(norm(double(R_sub * mon), 1) <= tol);
+assert(norm(double(R_sub * mon)) <= tol);
 
 %% Test 6: checking L2
 
