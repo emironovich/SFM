@@ -1,9 +1,11 @@
-function [L, x_given, y_given] = space_to_image(points_in_space, f)
+%this is a function that is for generating sets of points
+
+function [L, x_given, y_given] = space_to_image(points_in_space, f, N)
     L = -rand(1);
-    points_in_image = zeros(3, 10);
-    x_given = zeros(1, 10);
-    y_given = zeros(1, 10);
-    for i = 1 : 10
+    points_in_image = zeros(3, N);
+    x_given = zeros(1, N);
+    y_given = zeros(1, N);
+    for i = 1 : N
         %(u, v, 1 + L*(u^2 + v^2)) = a * (x, y, z)
         x = f * points_in_space(1, i);
         y = f * points_in_space(2, i);
