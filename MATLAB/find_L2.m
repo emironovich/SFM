@@ -1,3 +1,5 @@
+%THIS IS THE OUTDATED VERSION, NOT SUPPOSED TO WORK
+
 function L2_all = find_L2(E, Q_sym, Q, L_1, L_2, L1_pr, tol)    
     L2_all = zeros(0);
     for i = 1 : 3

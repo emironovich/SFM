@@ -1,17 +1,23 @@
-function [x, y, xx, yy, L1, L2, F] = generate_test_data()
-    x = rand(1, 10);
-    y = rand(1, 10);
+%THIS IS THE OUTDATED VERSION, NOT SUPPOSED TO WORK
+%for generation see other function
+
+function [x, y, xx, yy, L1, L2, F] = generate_test_data(N)
+    if nargin == 0
+        N = 10;
+    end
+    x = rand(1, N);
+    y = rand(1, N);
     F = rand(3);
     L1 = rand(1);
     X = [x; y;  1 + L1 * (x.^2 + y.^2)]; % colomns are coordinates in first image + distortion
 
-    xx = zeros(1, 10); %will define from equation
-    yy = rand(1, 10);
+    xx = zeros(1, N); %will define from equation
+    yy = rand(1, N);
     L2 = rand(1);
 
     syms t z real;
 
-    for i = 1:10
+    for i = 1:N
         ex = (X(:, i))' * F * [t; z; 1 + L2 * (t^2 + z^2)];
         [c, cx] = coeffs(ex, t);
     %     disp(c);

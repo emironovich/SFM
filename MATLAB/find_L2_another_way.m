@@ -1,3 +1,4 @@
+%this is apparently wrong too
 function L2_all = find_L2_another_way(R, Q_sym, Q, L_1, L1_pr, tol)
     L2_all = zeros(0);
     for i = 1 : 4

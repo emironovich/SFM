@@ -13,19 +13,19 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
 
     M = find_M(x, y, xx, yy);
     MG = rref(M);
-    disp(MG);
+    %disp(MG);
 
     Q = MG(:, 11:16);
-    disp(Q);
+    %disp(Q);
 
     S = find_S(F_sym, L_1, L_2, Q_sym);
     [CX, TX, R] = find_poly(S, L_1, L_2);
-    disp('I am back!');
-    disp(TX);
+    %disp('I am back!');
+    %disp(TX);
 
     L1_all = roots(subs(CX, Q_sym, Q)); %comples roots
-    disp('THESE ARE L1');
-    disp(L1_all);
+%     disp('THESE ARE L1');
+%     disp(L1_all);
     L1_new = zeros(10);
     num = 0;
     for i = 1 : length(L1_all)
@@ -48,16 +48,10 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
         L2_all = find_L2_another_way(R, Q_sym, Q, L_1, L1, tol);
         L2 = double(L2_all(1)); %there should be only one value, but just in case smth is wrong   
         F = find_F(S, Q_sym, Q, L_1, L_2, L1, L2);
-        disp('Here are the results for L1, L2:');
-        disp([L1 L2]);
-    %     disp('The real L1 and L2 are:');
-    %     disp([L1_th L2_th]);
-        disp('Here is the counted F:');
-        disp(F);
-    %     disp('The real F is:');
-    %     disp(F_th);
-    %     disp('Here is F_th divided by obtainted F');
-    %     disp(F_th./F);  
+%         disp('Here are the results for L1, L2:');
+%         disp([L1 L2]);
+%         disp('Here is the counted F:');
+%         disp(F);
         F_set(i, :, :) = F;
         L1_set(i) = L1;
         L2_set(i) = L2;
