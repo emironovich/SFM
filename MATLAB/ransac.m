@@ -18,7 +18,7 @@ function [L1_best, L2_best, F_best] =  ransac(x, y, xx, yy, data_size, it_num, t
             Y = [xx; yy;  1 + L2 * (xx.^2 + yy.^2)];
             curr_num = 0;
             for k = 1 : data_size
-                if((X(:, i))' * F * Y(:, i) <= tol)
+                if((X(:, k))' * F * Y(:, k) <= tol)
                     curr_num = curr_num + 1;
                 end
             end
