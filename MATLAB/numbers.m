@@ -45,8 +45,7 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
     
     for i = 1:num
         L1 = L1_all(i);
-        L2_all = find_L2_another_way(R, Q_sym, Q, L_1, L1, tol);
-        L2 = double(L2_all(1)); %there should be only one value, but just in case smth is wrong   
+        L2 = find_L2_third_attempt(R, Q_sym, Q, L_1, L1);
         F = find_F(S, Q_sym, Q, L_1, L_2, L1, L2);
 %         disp('Here are the results for L1, L2:');
 %         disp([L1 L2]);
