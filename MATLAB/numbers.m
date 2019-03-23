@@ -12,14 +12,29 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
     %[x, y, xx, yy, L1_th, L2_th, F_th] = generate_the_right_way();
 
     M = find_M(x, y, xx, yy);
-    MG = rref(M);
+    [~, MG] = qr(M);
+    for i = 1 : 10
+        j = 10 - i + 1;
+        temp = MG(j, j);
+        for k = j : 16
+            MG(j, k) = MG(j, k) / temp;
+        end
+        for k = 1 : (j - 1) %we don't use 4 first rows?
+            temp = MG(k, j);
+            MG(k, j) = 0; %do i need this?
+            for ind = 11 : 16
+                MG(k, ind) = MG(k, ind) - temp * MG(j, ind);
+            end
+        end
+    end
+    %MG = rref(M);
     %disp(MG);
 
     Q = MG(:, 11:16);
     %disp(Q);
 
     S = find_S(F_sym, L_1, L_2, Q_sym);
-    [CX, TX, R] = find_poly(S, L_1, L_2);
+    [CX, ~, MG] = find_poly(S, L_1, L_2);
     %disp('I am back!');
     %disp(TX);
 
@@ -45,7 +60,7 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
     
     for i = 1:num
         L1 = L1_all(i);
-        L2 = find_L2_third_attempt(R, Q_sym, Q, L_1, L1);
+        L2 = find_L2_third_attempt(MG, Q_sym, Q, L_1, L1);
         F = find_F(S, Q_sym, Q, L_1, L_2, L1, L2);
 %         disp('Here are the results for L1, L2:');
 %         disp([L1 L2]);
