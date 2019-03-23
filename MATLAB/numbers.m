@@ -21,7 +21,7 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
         end
         for k = 1 : (j - 1) %we don't use 4 first rows?
             temp = MG(k, j);
-            MG(k, j) = 0; %do i need this?
+            MG(k, j) = 0;
             for ind = 11 : 16
                 MG(k, ind) = MG(k, ind) - temp * MG(j, ind);
             end
