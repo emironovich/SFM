@@ -18,4 +18,7 @@ function R = find_R(S, L_2)
 %         disp(tx);
         R(i, :) = cx;
     end
+    temp = R(2, :);
+    R(2, :) = R(4, :);
+    R(4, :) = temp;
 end
