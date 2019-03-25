@@ -1,6 +1,11 @@
-function F = find_F(S, Q_sym, Q, L_1, L_2, L1_pr, L2_pr)
+function F = find_F(Q, L1_pr, L2_pr)
     F = ones(3); %F(3, 3) = 1;
-    F(2, 3) = subs(subs(-S(1,2)/S(1,1), [L_1 L_2], [L1_pr L2_pr]), Q_sym, Q);
+    
+    mon23 = [L2_pr; 1];
+    mon33 = [1; L1_pr; L2_pr; L1_pr*L2_pr];
+    S11 = Q(5,1:2)*mon23 - L1_pr*Q(6,1:2)*mon23; %equation (5)
+    S12 = Q(5,3:6) * mon33 - L1_pr*Q(6, 3:6)*mon33;
+    F(2, 3) = -S12/S11;
 
     X = zeros(6, 1);
 
