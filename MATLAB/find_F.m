@@ -1,6 +1,6 @@
-function F = find_F(S, Q_sym, Q, L_1, L_2, L1_pr, L2_pr)
+function F = find_F(S, Q, L_1, L_2, L1_pr, L2_pr)
     F = ones(3); %F(3, 3) = 1;
-    F(2, 3) = subs(subs(-S(1,2)/S(1,1), [L_1 L_2], [L1_pr L2_pr]), Q_sym, Q);
+    F(2, 3) = subs(-S(1,2)/S(1,1), [L_1 L_2], [L1_pr L2_pr]);
 
     X = zeros(6, 1);
 

@@ -1,26 +1,17 @@
-function S = find_S(F_sym, L_1, L_2, Q_sym)
-%     F_sym = sym('f_%d_%d',3); % fumdamental matrix (unknown)
-%     syms L_1 L_2; % distortion parametrs (unknown)  
-
-    %X = [F(1,1), F(1,2), F(2,1), F(2,2), L_1 * F(3,1), F(3,1), L_1*F(3,2),
-    %    F(3,2), L_2*F(1,3), F(1,3), L_2*F(2,3), F(2,3), F(3,3), L_1*F(3,3),
-    %    L_2*F(3,3), L_1*L_2*F(3,3)]
-    [A, X] = find_AX(F_sym, L_1, L_2, Q_sym); %equations 5-7
-    %disp(A * X);
-
-    PR = A*X;
-    S = sym('S', [3 2]); % coefficients matrix for equation 8
-
-    for i = 1:3
-        t = PR(i, :);
-        %disp(t);
-        [cx, tx] = coeffs(t, [F_sym(2,3) F_sym(3,3)]);
-%         disp('Coeff:');
-%         disp(cx);
-%         disp('Poly:');
-%         disp(tx);
-        S(i, :) = cx;
-    end
-
-%    disp(S);
+function S = find_S(L_1, L_2, Q)
+    %todo CHECK
+    S = sym('f_%d_%d',[3 2]);
+    mon23 = [L_2; 1];
+    mon33 = [1; L_1; L_2; L_1*L_2];
+    
+    S(1, 1) = Q(5,1:2)*mon23 - L_1*Q(6,1:2)*mon23; %equation (5)
+    S(1, 2) = Q(5,3:6) * mon33 - L_1*Q(6, 3:6)*mon33;
+    
+    S(2, 1) = Q(7,1:2)*mon23 - L_1*Q(8,1:2)*mon23; %equation (6)
+    S(2, 2) = Q(7,3:6) * mon33 - L_1*Q(8, 3:6)*mon33;
+    
+    S(3, 1) = Q(9,1:2)*mon23 - L_2*Q(10,1:2)*mon23; %equation (6)
+    S(3, 2) = Q(9,3:6) * mon33 - L_2*Q(10, 3:6)*mon33;
+    
+    
 end
