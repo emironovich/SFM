@@ -1,6 +1,6 @@
 %this is the FL1L2 solver
 
-function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
+function [F_set, L1_set, L2_set, num, R] = numbers(x, y, xx, yy, tol)
     %F_sym = sym('f_%d_%d',3); % fumdamental matrix (unknown)
     %syms L_1 L_2; % distortion parametrs (unknown)  
 
@@ -35,8 +35,10 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
 
     R = find_R_num(Q);
     poly = find_det_R(R);
-
+    disp("polynimial from determinant");
+    disp(double(poly));
     L1_all = roots(poly); %complex roots
+    disp(polyval(poly, L1_all));
 %     disp('THESE ARE L1');
 %     disp(L1_all);
     L1_new = zeros(10);
