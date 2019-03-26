@@ -10,11 +10,10 @@ disp(polynomialDegree(R, L_1));
 fileID = fopen('R.txt','wt');
 for i = 1 : 4
     for j = 1 : 4
-        disp(coeffs(R(i, j), L_1));
         if polynomialDegree(R(i, j), L_1) == 0
             fprintf(fileID,"0\n");
         else
-            fprintf(fileID, '%s\n', coeffs(R(i, j), L_1));
+            fprintf(fileID, '%s\n', coeffs(R(i, j), L_1, 'All'));
         end
         fprintf(fileID, "$\n");
     end
