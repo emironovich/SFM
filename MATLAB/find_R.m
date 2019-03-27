@@ -5,7 +5,7 @@ function R = find_R(S, L_2)
     for i = 1:4
         t = E(i);
 %         disp(t);
-        [cx, tx] = coeffs(t, L_2);
+        [cx, tx] = coeffs(t, L_2, 'All');
         if(tx(1) ~= L_2^3)
             cx = [0 cx];
         end

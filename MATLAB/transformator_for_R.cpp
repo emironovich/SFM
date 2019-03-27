@@ -43,7 +43,7 @@ int main()
 					fin >> j;
 					temp = "Q(";
 					if (z == '0') {
-						temp.push_back('9');
+						temp.append("10");
 					}
 					else {
 						temp.push_back(i);
