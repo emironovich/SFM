@@ -15,10 +15,10 @@ function S = find_S(F_sym, L_1, L_2, Q_sym)
         t = PR(i, :);
         %disp(t);
         [cx, tx] = coeffs(t, [F_sym(2,3) F_sym(3,3)]);
-        disp('Coeff:');
-        disp(cx);
-        disp('Poly:');
-        disp(tx);
+%         disp('Coeff:');
+%         disp(cx);
+%         disp('Poly:');
+%         disp(tx);
         S(i, :) = cx;
     end
 

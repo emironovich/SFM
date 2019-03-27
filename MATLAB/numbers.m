@@ -35,18 +35,15 @@ function [F_set, L1_set, L2_set, num, R] = numbers(x, y, xx, yy, tol)
 
     R = find_R_num(Q);
     poly = find_det_R(R);
-    disp("polynimial from determinant");
-    disp(double(poly));
     L1_all = roots(poly); %complex roots
-    disp(polyval(poly, L1_all));
 %     disp('THESE ARE L1');
 %     disp(L1_all);
     L1_new = zeros(10);
     num = 0;
     for i = 1 : length(L1_all)
         if abs(imag(L1_all(i))) < tol
-            L1_new(i) = real(L1_all(i));
             num = num + 1;
+            L1_new(num) = real(L1_all(i));
         end
     end
     L1_new = L1_new(1:num);

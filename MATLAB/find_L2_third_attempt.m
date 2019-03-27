@@ -5,8 +5,6 @@ function L2 = find_L2_third_attempt(R, L1)
             myR(i, j) = polyval(squeeze(R(i, j, :)), L1);
         end
     end
-    disp("det of evaluated R");
-    disp(det(myR));
 %     kernal_basis = null(myR);
 %     %i suppose that rank(R) = 3 is true
 %     L2 = kernal_basis(3) / kernal_basis(4);

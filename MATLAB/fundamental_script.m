@@ -1,11 +1,11 @@
 %this is the script that uses written solver for generated data
 
 N = 1;
-tol_for_ans = 10e-12;
+tol_for_ans = 10e-10;
 num_wrong = 0;
 diff_wrong = zeros(N);
 for k = 1 : N
-    [x, y, xx, yy,   L1, L2, F, R, t] = generate_the_right_way();
+    [x, y, xx, yy, L1, L2, F, R, t] = generate_the_right_way();
     tol = 1e-8;
     [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol);
 
