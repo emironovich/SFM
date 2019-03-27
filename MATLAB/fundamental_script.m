@@ -1,6 +1,6 @@
 %this is the script that uses written solver for generated data
 
-N = 20;
+N = 1;
 tol_for_ans = 10e-12;
 num_wrong = 0;
 diff_wrong = zeros(N);
