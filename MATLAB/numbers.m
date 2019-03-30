@@ -55,7 +55,7 @@ function [F_set, L1_set, L2_set, num, R] = numbers(x, y, xx, yy, tol)
     
     for i = 1:num
         L1 = L1_all(i);
-        L2 = find_L2_third_attempt(R, L1);
+        L2 = find_L2_fourth_attempt(R, L1);
         F = find_F(Q, L1, L2);
 %         disp('Here are the results for L1, L2:');
 %         disp([L1 L2]);
