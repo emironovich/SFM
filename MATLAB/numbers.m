@@ -33,8 +33,8 @@ function [F_set, L1_set, L2_set, num, R] = numbers(x, y, xx, yy, tol)
     Q = MG(:, 11:16);
     %disp(Q);
 
-    R = find_R_num(Q);
-    poly = find_det_R(R);
+    [R12, R13, R14, R31, R32, R33, R34, R41, R42, R43, R44] = find_R_num(Q);
+    poly = find_det_R(R12, R13, R14, R31, R32, R33, R34, R41, R42, R43, R44);
     L1_all = roots(poly); %complex roots
 %     disp('THESE ARE L1');
 %     disp(L1_all);
@@ -55,7 +55,7 @@ function [F_set, L1_set, L2_set, num, R] = numbers(x, y, xx, yy, tol)
     
     for i = 1:num
         L1 = L1_all(i);
-        L2 = find_L2_fourth_attempt(R, L1);
+        L2 = find_L2_fourth_attempt(L1, R12, R13, R14, R31, R32, R33, R34, R41, R42, R43, R44);
         F = find_F(Q, L1, L2);
 %         disp('Here are the results for L1, L2:');
 %         disp([L1 L2]);

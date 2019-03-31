@@ -13,7 +13,17 @@ for i = 1 : 4
         if polynomialDegree(R(i, j), L_1) == 0
             fprintf(fileID,"0\n");
         else
-            fprintf(fileID, '%s\n', coeffs(R(i, j), L_1, 'All'));
+            if i == 2
+                if j == 1
+                    fprintf(fileID, "R12\n");
+                elseif j == 2
+                    fprintf(fileID, "R13\n");
+                elseif j == 3
+                    fprintf(fileID, "R14\n");
+                end
+            else
+                fprintf(fileID, '%s\n', coeffs(R(i, j), L_1, 'All'));
+            end
         end
         fprintf(fileID, "$\n");
     end
