@@ -1,7 +1,7 @@
 # SFM
 This is a repository for a course work called &lt;&lt;Global reconstruction and uncalibrated cameras>> 2018/2019
 
-Main files in MATLAB folder:
+Main files are in MATLAB folder:
 
 numbers.m -- file with function that finds fundamental matrix and distortion parameters
 
