@@ -23,7 +23,7 @@ function [F_set, L1_set, L2_set, num] = numbers(x, y, xx, yy, tol)
     L1_new = zeros(10);
     num = 0;
     for i = 1 : 10
-        if abs(imag(L1_all(i))) < tol
+        if abs(imag(L1_all(i))) < tol && real(L1_all(i)) >= -10 && real(L1_all(i)) <= 2
             num = num + 1;
             L1_new(num) = real(L1_all(i));
         end

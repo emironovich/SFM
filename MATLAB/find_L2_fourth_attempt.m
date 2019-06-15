@@ -22,6 +22,10 @@ function L2 = find_L2_fourth_attempt(L1, R12, R13, R14, R31, R32, R33, R34, R41,
 %     %i suppose that rank(R) = 3 is true
 %     L2 = kernal_basis(3) / kernal_basis(4);
     
-    [~,~,V]=svd(myR);
-    L2 = V(3, 4) / V(4, 4);
+    
+    [Q, ~] = qr(myR');
+    L2 = Q(3, 4) / Q(4, 4);
+
+%     [~,~,V]=svd(myR);
+%     L2 = V(3, 4) / V(4, 4);
 end
