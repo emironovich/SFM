@@ -1,7 +1,7 @@
 %this is the script that uses written solver for generated data
 
 N = 1;
-tol_for_ans = 10e-12;
+tol_for_ans = 10e-10;
 num_wrong = 0;
 diff_wrong = zeros(N);
 for k = 1 : N
